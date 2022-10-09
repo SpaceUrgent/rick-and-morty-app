@@ -10,4 +10,6 @@ public interface LocationService {
     void saveAll(List<Location> locations);
 
     Location findById(Long id);
+
+    void syncLocations();
 }

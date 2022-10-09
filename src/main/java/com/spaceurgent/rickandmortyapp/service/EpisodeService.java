@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface EpisodeService {
     void saveAll(List<Episode> episodes);
+
+    void syncEpisodes();
 }

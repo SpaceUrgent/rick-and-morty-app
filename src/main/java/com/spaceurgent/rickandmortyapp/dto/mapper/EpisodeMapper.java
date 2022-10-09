@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ApiEpisodeMapper implements RequestMapper<Episode, ApiEpisodeDto> {
+public class EpisodeMapper implements RequestMapper<Episode, ApiEpisodeDto> {
     private final MovieCharacterService movieCharacterService;
 
     @Autowired
-    public ApiEpisodeMapper(MovieCharacterService movieCharacterService) {
+    public EpisodeMapper(MovieCharacterService movieCharacterService) {
         this.movieCharacterService = movieCharacterService;
     }
 

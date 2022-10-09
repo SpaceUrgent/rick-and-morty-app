@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.net.URL;
 
 @Component
-public class ApiMovieCharacterMapper implements RequestMapper<MovieCharacter, ApiMovieCharacterDto> {
+public class MovieCharacterMapper implements RequestMapper<MovieCharacter, ApiMovieCharacterDto> {
     private final LocationService locationService;
 
     @Autowired
-    public ApiMovieCharacterMapper(LocationService locationService) {
+    public MovieCharacterMapper(LocationService locationService) {
         this.locationService = locationService;
     }
 

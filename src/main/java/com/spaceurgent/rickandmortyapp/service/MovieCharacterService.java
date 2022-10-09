@@ -10,4 +10,6 @@ public interface MovieCharacterService {
     void saveAll(List<MovieCharacter> movieCharacters);
 
     MovieCharacter findById(Long id);
+
+    void syncMovieCharacters();
 }
