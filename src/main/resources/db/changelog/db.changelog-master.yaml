@@ -1,3 +1,9 @@
 databaseChangeLog:
   - include:
-      file:
+      file: /db/changelog/changes/create-locations-table.sql
+  - include:
+      file: /db/changelog/changes/create-characters-table.sql
+  - include:
+      file: /db/changelog/changes/create-episodes-table.sql
+  - include:
+      file: /db/changelog/changes/create-episodes-characters-table.sql
