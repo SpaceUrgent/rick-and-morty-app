@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<style>
+    table {
+        margin-left: 10%;
+        margin-right: 10%;
+        max-width: 80%;
+    }
+    table,td, th {
+        border-collapse: collapse;
+    }
+    .row {
+        /*height: 250px;*/
+        height: 200px;
+        background-color: grey;
+    }
+    img {
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        margin-top: 1%;
+        margin-left: 1%;
+    }
+    .character-content {
+        background-color: grey;
+        padding-left: 5%;
+        vertical-align: top;
+    }
+    .character-name {
+        font-family: "Arial Black";
+        font-weight: bold;
+        font-size: 1.8rem;
+        color: antiquewhite;
+    }
+
+    .character-properties, .character-location {
+        font-family: "Arial";
+        font-size: 1rem;
+        font-weight: lighter;
+        color: antiquewhite;
+    }
+    .property-description, .location-description {
+        font-family: "Arial";
+        font-size: 1rem;
+        font-weight: normal;
+        color: darkgrey;
+    }
+    .character-content-location {
+        vertical-align: center;
+        background-color: grey;
+        padding-left: 5%;
+        border-bottom-right-radius: 50%;
+        border-top-right-radius: 50%;
+    }
+    .image-column {
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+    }
+
+    .empty-row {
+        height: 0.5rem;
+    }
+    .character-status {
+        display: flex;
+        vertical-align: center;
+    }
+    .character-status > a {
+        flex: 1;
+    }
+    .status-light-green, .status-light-red, .status-light-unknown {
+        height: 0.5rem;
+        width: 0.5rem;
+        border-radius: 50%;
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+    .status-light-green {
+        background-color: green;
+    }
+    .status-light-red {
+        background-color: red;
+    }
+    .status-light-unknown {
+        background-color: yellow;
+    }
+</style>
+
+<body>
+
+<table class="characters-table">
+    <tr>
+        <th style="width: 250px"></th>
+        <th style="width: 300px"></th>
+        <th style="width: 300px"></th>
+    </tr>
+    <div class="character-container" th:each="character : ${characters}">
+        <tr class="row">
+        <td class="image-column">
+            <div class="character-image">
+                <img th:src="@{'data:image/jpeg;base64,'+ ${character.encodeImage()}}">
+            </div>
+        </td>
+        <td class="character-content">
+            <a class="character-name" th:text="${character.name}"/></p>
+            <a class="character-properties"></a></p>
+            <div class="character-status">
+                <div th:switch="${character.status}">
+                    <div th:case="'Alive'">
+                        <div class="status-light-green"></div></div>
+                    <div th:case="'Dead'">
+                        <div class="status-light-red"></div></div>
+                    <div th:case="'unknown'">
+                        <div class="status-light-unknown"></div></div>
+                </div>
+                <a class="character-properties" th:text="${character.status}"/></p>
+            </div>
+            <a class="property-description">Spieces:</a></p>
+            <a class="character-properties" th:text="${character.spieces} + ' - ' + ${character.gender}"/></p>
+            <div class="character-type" th:if="${!character.type.isEmpty()}">
+            <a class="property-description">Type:</a></p>
+            <a class="character-properties" th:text="${character.type}"/></p>
+            </div>
+        </td>
+        <td class="character-content-location">
+            <a class="location-description">Originally from:</a></p>
+            <a class="character-location" th:text="${character.origin}"/></p>
+            <a class="location-description">Last known location:</a></p>
+            <a class="character-location" th:text="${character.resident}"/></p>
+        </td>
+        </tr>
+        <tr class="empty-row"></tr>
+    </div>
+</table>
+
+</body>
+</html>

@@ -9,6 +9,8 @@ import com.spaceurgent.rickandmortyapp.service.HttpClient;
 import com.spaceurgent.rickandmortyapp.service.MovieCharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -55,5 +57,10 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
                 .flatMap(Arrays::stream)
                 .map(movieCharacterMapper::toModel)
                 .collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<MovieCharacter> getAll(PageRequest pageRequest) {
+        return movieCharacterRepository.findAll(pageRequest).toList();
     }
 }
