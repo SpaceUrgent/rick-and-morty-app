@@ -63,4 +63,17 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
     public List<MovieCharacter> getAll(PageRequest pageRequest) {
         return movieCharacterRepository.findAll(pageRequest).toList();
     }
+
+    @Override
+    public Long countPages() {
+        return Long.valueOf(movieCharacterRepository.count() / 20);
+    }
+
+    @Override
+    public List<MovieCharacter> findByNameOrLocation(String value, PageRequest pageRequest) {
+        return movieCharacterRepository
+                        .findAllByNameOrLocation(value,
+                                pageRequest)
+                        .getContent();
+    }
 }

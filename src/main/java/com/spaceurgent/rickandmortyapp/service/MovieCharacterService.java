@@ -15,4 +15,8 @@ public interface MovieCharacterService {
     void syncMovieCharacters();
 
     List<MovieCharacter> getAll(PageRequest pageRequest);
+
+    Long countPages();
+
+    List<MovieCharacter> findByNameOrLocation(String value, PageRequest pageRequest);
 }

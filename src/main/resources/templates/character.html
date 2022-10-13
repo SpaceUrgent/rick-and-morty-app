@@ -6,6 +6,47 @@
 </head>
 
 <style>
+    .filter-panel input[type=text] {
+        border: medium solid #08152D;
+        font-size: 17px;
+        font-family: Arial;
+        border-radius: 25px;
+        width: 300px;
+    }
+    .pages-bar {
+        margin-top: 50px;
+        height: 50px;
+        display: flex;
+    }
+    .previous-active, .previous-inactive, .next-active, .next-inactive {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+        /*background-color: #08152D;*/
+        /*color: antiquewhite;*/
+        font-family: Arial;
+        font-weight: bolder;
+        vertical-align: center;
+        border-radius: 15px;
+    }
+    .next-active, .previous-active {
+        background-color: #08152D;
+        color: antiquewhite;
+    }
+    .next-active:hover, .previous-active:hover {
+        background-color: #EEF5F0;
+        color: #08152D;
+    }
+    .next-inactive, .previous-inactive {
+        background-color: #525353;
+        color: #C1C1C1;
+    }
+    .content {
+        background-color: #08152D;
+    }
+    .empty-space {
+        height: 20px;
+    }
     table {
         margin-left: 10%;
         margin-right: 10%;
@@ -17,7 +58,7 @@
     .row {
         /*height: 250px;*/
         height: 200px;
-        background-color: grey;
+        background-color: #4A4C50;
     }
     img {
         width: 240px;
@@ -27,7 +68,7 @@
         margin-left: 1%;
     }
     .character-content {
-        background-color: grey;
+        background-color: #4A4C50;
         padding-left: 5%;
         vertical-align: top;
     }
@@ -52,7 +93,7 @@
     }
     .character-content-location {
         vertical-align: center;
-        background-color: grey;
+        background-color: #4A4C50;
         padding-left: 5%;
         border-bottom-right-radius: 50%;
         border-top-right-radius: 50%;
@@ -91,7 +132,27 @@
 </style>
 
 <body>
-
+<div class="filter-panel">
+        <input type="text" th:name="value" th:placeholder="Search..">
+        <input type="submit" value="Submit" th:href=""/>
+</div>
+<div class="pages-bar">
+    <div th:if="${currentPage == 0}">
+        <a th:href="'/characters?page=' + ${currentPage}" class="previous-inactive">&#8249; Previous</a>
+    </div>
+    <div th:if="${currentPage > 0}">
+        <a th:href="'/characters?page=' + ${currentPage - 1}" class="previous-active">&#8249; Previous</a>
+    </div>
+    <div type="box" th:text="'Current page: ' + ${currentPage} + '/' + ${pages}"></div>
+    <div th:if="${currentPage < pages}">
+        <a th:href="'/characters?page=' + ${currentPage + 1}" class="next-active">Next &#8250;</a>
+    </div>
+    <div th:if="${currentPage == pages}">
+        <a th:href="'/characters?page=' + ${currentPage}" class="next-inactive">Next &#8250;</a>
+    </div>
+</div>
+<div class="content">
+    <div class="empty-space"></div>
 <table class="characters-table">
     <tr>
         <th style="width: 250px"></th>
@@ -136,6 +197,6 @@
         <tr class="empty-row"></tr>
     </div>
 </table>
-
+</div>
 </body>
 </html>
