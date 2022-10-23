@@ -30,7 +30,7 @@ public class MovieCharacterController {
     @GetMapping
     public String getAll(Model model,
                          @RequestParam(required = false) String name,
-                         @RequestParam(required = false) String status,
+                         @RequestParam(defaultValue = "all") String status,
                          @RequestParam(defaultValue = "0") Integer page,
                          @RequestParam(defaultValue = "20") Integer count) {
         PageRequest pageRequest = PageRequest.of(page, count);

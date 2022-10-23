@@ -76,10 +76,10 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
 
     @Override
     public Long countPages(Integer count, String status, String namePattern) {
-        if (status == null && namePattern == null) {
+        if ((status == null || status.equals("all")) && namePattern == null) {
             return countPages(count);
         }
-        if (status == null) {
+        if (status == null || status.equals("all")) {
             return countPages(count, namePattern);
         }
         return movieCharacterRepository
@@ -99,7 +99,7 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
 
     @Override
     public List<MovieCharacter> finaAllByStatus(String status, PageRequest pageRequest) {
-        if (status == null) {
+        if (status == null || status.equals("all")) {
             return getAll(pageRequest);
         }
         return movieCharacterRepository
@@ -109,7 +109,7 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
 
     @Override
     public List<MovieCharacter> findAllByNameContainsAndStatus(String status, String value, PageRequest pageRequest) {
-        if (status == null) {
+        if (status == null || status.equals("all")) {
             return findAllByNameContains(value, pageRequest);
         }
         return movieCharacterRepository

@@ -134,31 +134,31 @@
 <body>
 <form class="example" th:action="@{/characters}">
     <input type="text" th:name="name" th:value="${name}"/>
-    <button type="submit"></button>
     <div>
-        <label>Select status:</label>
+        <label>Status:</label>
         <select th:name="status">
-            <option th:value="null">All</option>
+            <option th:value="${status}" th:text="${status.toUpperCase()}"></option>
+            <option th:value="'all'">All</option>
             <option th:value="'alive'">Alive</option>
             <option th:value="'dead'">Dead</option>
             <option th:value="'unknown'">Unknown</option>
         </select>
     </div>
-
+    <button type="submit">Search</button>
 </form>
 <div class="pages-bar">
     <div th:if="${currentPage == 0}">
-        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name}" class="previous-inactive">&#8249; Previous</a>
+        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name} + '&status=' + ${status}" class="previous-inactive">&#8249; Previous</a>
     </div>
     <div th:if="${currentPage > 0}">
-        <a th:href="'/characters?page=' + ${currentPage - 1} + '&name=' + ${name}" class="previous-active">&#8249; Previous</a>
+        <a th:href="'/characters?page=' + ${currentPage - 1} + '&name=' + ${name} + '&status=' + ${status}" class="previous-active">&#8249; Previous</a>
     </div>
     <div type="box" th:text="'Current page: ' + ${currentPage} + '/' + ${pages}"></div>
     <div th:if="${currentPage < pages}">
-        <a th:href="'/characters?page=' + ${currentPage + 1} + '&name=' + ${name}" class="next-active">Next &#8250;</a>
+        <a th:href="'/characters?page=' + ${currentPage + 1} + '&name=' + ${name} + '&status=' + ${status}" class="next-active">Next &#8250;</a>
     </div>
     <div th:if="${currentPage == pages}">
-        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name}" class="next-inactive">Next &#8250;</a>
+        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name}  + '&status=' + ${status}" class="next-inactive">Next &#8250;</a>
     </div>
 </div>
 <div class="content">
