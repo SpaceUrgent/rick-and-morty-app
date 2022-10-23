@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,13 +29,19 @@ public class MovieCharacterController {
 
     @GetMapping
     public String getAll(Model model,
+                         @RequestParam(required = false) String name,
+                         @RequestParam(required = false) String status,
                          @RequestParam(defaultValue = "0") Integer page,
                          @RequestParam(defaultValue = "20") Integer count) {
         PageRequest pageRequest = PageRequest.of(page, count);
-        List<MovieCharacterDto> characterDtos = movieCharacterService.getAll(pageRequest).stream()
+        List<MovieCharacterDto> characterDtos = movieCharacterService
+                .findAllByNameContainsAndStatus(status, name, pageRequest)
+                .stream()
                 .map(movieCharacterMapper::toDto)
                 .collect(Collectors.toList());
-        Long pages = movieCharacterService.countPages();
+        Long pages = movieCharacterService.countPages(count, status, name);
+        model.addAttribute("status", status);
+        model.addAttribute("name", name);
         model.addAttribute("characters", characterDtos);
         model.addAttribute("currentPage", page);
         model.addAttribute("pages", pages);

@@ -132,23 +132,23 @@
 </style>
 
 <body>
-<div class="filter-panel">
-        <input type="text" th:name="value" th:placeholder="Search..">
-        <input type="submit" value="Submit" th:href=""/>
-</div>
+<form class="example" th:action="@{/characters}">
+    <input type="text" th:name="name" placeholder="Search.."/>
+    <button type="submit"></button>
+</form>
 <div class="pages-bar">
     <div th:if="${currentPage == 0}">
-        <a th:href="'/characters?page=' + ${currentPage}" class="previous-inactive">&#8249; Previous</a>
+        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name}" class="previous-inactive">&#8249; Previous</a>
     </div>
     <div th:if="${currentPage > 0}">
-        <a th:href="'/characters?page=' + ${currentPage - 1}" class="previous-active">&#8249; Previous</a>
+        <a th:href="'/characters?page=' + ${currentPage - 1} + '&name=' + ${name}" class="previous-active">&#8249; Previous</a>
     </div>
     <div type="box" th:text="'Current page: ' + ${currentPage} + '/' + ${pages}"></div>
     <div th:if="${currentPage < pages}">
-        <a th:href="'/characters?page=' + ${currentPage + 1}" class="next-active">Next &#8250;</a>
+        <a th:href="'/characters?page=' + ${currentPage + 1} + '&name=' + ${name}" class="next-active">Next &#8250;</a>
     </div>
     <div th:if="${currentPage == pages}">
-        <a th:href="'/characters?page=' + ${currentPage}" class="next-inactive">Next &#8250;</a>
+        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name}" class="next-inactive">Next &#8250;</a>
     </div>
 </div>
 <div class="content">

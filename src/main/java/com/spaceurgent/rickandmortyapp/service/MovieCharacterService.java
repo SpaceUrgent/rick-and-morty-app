@@ -1,6 +1,7 @@
 package com.spaceurgent.rickandmortyapp.service;
 
 import com.spaceurgent.rickandmortyapp.model.MovieCharacter;
+import com.spaceurgent.rickandmortyapp.model.enums.Status;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -16,7 +17,13 @@ public interface MovieCharacterService {
 
     List<MovieCharacter> getAll(PageRequest pageRequest);
 
-    Long countPages();
+    Long countPages(Integer count);
 
-    List<MovieCharacter> findByNameOrLocation(String value, PageRequest pageRequest);
+    Long countPages(Integer count, String namePattern);
+    Long countPages(Integer count, String status, String namePattern);
+
+    List<MovieCharacter> findAllByNameContains(String value, PageRequest pageRequest);
+
+    List<MovieCharacter> finaAllByStatus(String status, PageRequest pageRequest);
+    List<MovieCharacter> findAllByNameContainsAndStatus(String status, String value, PageRequest pageRequest);
 }

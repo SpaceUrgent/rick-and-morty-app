@@ -1,6 +1,7 @@
 package com.spaceurgent.rickandmortyapp.repository;
 
 import com.spaceurgent.rickandmortyapp.model.MovieCharacter;
+import com.spaceurgent.rickandmortyapp.model.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,9 +11,12 @@ public interface MovieCharacterRepository extends JpaRepository<MovieCharacter, 
 
     Page<MovieCharacter> findAll(Pageable pageable);
 
-    @Query("from MovieCharacter mc " +
-            "join mc.location l " +
-            "join mc.origin o " +
-            "where mc.name like %?1% or l.name like %?1% or o.name like %?1%")
-    Page<MovieCharacter> findAllByNameOrLocation(String value, Pageable pageable);
+    Page<MovieCharacter> findAllByNameContains(String value, Pageable pageable);
+
+    Page<MovieCharacter> findAllByStatus(Status status, Pageable pageable);
+
+    Page<MovieCharacter> findAllByStatusAndNameContains(Status status, String value, Pageable pageable);
+
+    Long countAllByNameContains(String namePattern);
+    Long countAllByStatusAndNameContains(Status status, String namePattern);
 }

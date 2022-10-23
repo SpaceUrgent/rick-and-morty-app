@@ -1,15 +1,14 @@
 package com.spaceurgent.rickandmortyapp.service.impl;
 
 import com.spaceurgent.rickandmortyapp.dto.external.charcter.ApiCharactersResponseDto;
-import com.spaceurgent.rickandmortyapp.dto.external.location.ApiLocationResponseDto;
 import com.spaceurgent.rickandmortyapp.dto.mapper.MovieCharacterMapper;
 import com.spaceurgent.rickandmortyapp.model.MovieCharacter;
+import com.spaceurgent.rickandmortyapp.model.enums.Status;
 import com.spaceurgent.rickandmortyapp.repository.MovieCharacterRepository;
 import com.spaceurgent.rickandmortyapp.service.HttpClient;
 import com.spaceurgent.rickandmortyapp.service.MovieCharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +56,7 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
                 .flatMap(Arrays::stream)
                 .map(movieCharacterMapper::toModel)
                 .collect(Collectors.toList()));
+
     }
 
     @Override
@@ -65,15 +65,56 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
     }
 
     @Override
-    public Long countPages() {
-        return Long.valueOf(movieCharacterRepository.count() / 20);
+    public Long countPages(Integer count) {
+        return Long.valueOf(movieCharacterRepository.count() / count);
     }
 
     @Override
-    public List<MovieCharacter> findByNameOrLocation(String value, PageRequest pageRequest) {
+    public Long countPages(Integer count, String namePattern) {
+        return movieCharacterRepository.countAllByNameContains(namePattern) / count;
+    }
+
+    @Override
+    public Long countPages(Integer count, String status, String namePattern) {
+        if (status == null && namePattern == null) {
+            return countPages(count);
+        }
+        if (status == null) {
+            return countPages(count, namePattern);
+        }
         return movieCharacterRepository
-                        .findAllByNameOrLocation(value,
+                .countAllByStatusAndNameContains(Status.valueOf(status.toUpperCase()), namePattern) / count;
+    }
+
+    @Override
+    public List<MovieCharacter> findAllByNameContains(String value, PageRequest pageRequest) {
+        if (value == null || value.isEmpty()) {
+            return getAll(pageRequest);
+        }
+        return movieCharacterRepository
+                        .findAllByNameContains(value,
                                 pageRequest)
                         .getContent();
     }
+
+    @Override
+    public List<MovieCharacter> finaAllByStatus(String status, PageRequest pageRequest) {
+        if (status == null) {
+            return getAll(pageRequest);
+        }
+        return movieCharacterRepository
+                .findAllByStatus(Status.valueOf(status.toUpperCase()), pageRequest)
+                .getContent();
+    }
+
+    @Override
+    public List<MovieCharacter> findAllByNameContainsAndStatus(String status, String value, PageRequest pageRequest) {
+        if (status == null) {
+            return findAllByNameContains(value, pageRequest);
+        }
+        return movieCharacterRepository
+                .findAllByStatusAndNameContains(Status.valueOf(status.toUpperCase()),
+                        value, pageRequest).getContent();
+    }
+
 }
