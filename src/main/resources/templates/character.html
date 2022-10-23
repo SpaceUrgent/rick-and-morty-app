@@ -133,8 +133,18 @@
 
 <body>
 <form class="example" th:action="@{/characters}">
-    <input type="text" th:name="name" placeholder="Search.."/>
+    <input type="text" th:name="name" th:value="${name}"/>
     <button type="submit"></button>
+    <div>
+        <label>Select status:</label>
+        <select th:name="status">
+            <option th:value="null">All</option>
+            <option th:value="'alive'">Alive</option>
+            <option th:value="'dead'">Dead</option>
+            <option th:value="'unknown'">Unknown</option>
+        </select>
+    </div>
+
 </form>
 <div class="pages-bar">
     <div th:if="${currentPage == 0}">
