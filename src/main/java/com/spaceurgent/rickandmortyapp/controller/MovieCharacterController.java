@@ -44,6 +44,7 @@ public class MovieCharacterController {
         model.addAttribute("name", name);
         model.addAttribute("characters", characterDtos);
         model.addAttribute("currentPage", page);
+        model.addAttribute("count", count);
         model.addAttribute("pages", pages);
         return "character.html";
     }
