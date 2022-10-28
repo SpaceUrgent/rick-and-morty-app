@@ -6,40 +6,65 @@
 </head>
 
 <style>
+    .filter-bar, .filter-form {
+        display: flex;
+    }
+    .filter-bar {
+        background-color: #08152D;
+        height: 2.5rem;
+    }
+    .filter-form > label {
+        font-size: 17px;
+        font-family: Arial;
+    }
+    .select-status {
+        margin-top: 10px;
+    }
+    .status-label {
+        color: antiquewhite;
+        font-family: Arial;
+        font-size: 17px;
+    }
     .filter-panel input[type=text] {
         border: medium solid #08152D;
         font-size: 17px;
-        font-family: Arial;
-        border-radius: 25px;
-        width: 300px;
+        border-radius: 15px;
     }
     .pages-bar {
-        margin-top: 50px;
+        margin-top: 10px;
         height: 50px;
         display: flex;
     }
-    .previous-active, .previous-inactive, .next-active, .next-inactive {
+    .pages-bar > .text {
+        font-size: 1rem;
+        font-family: Arial;
+        margin-top: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .previous-active, .previous-inactive, .next-active, .next-inactive, .less-active, .less-inactive, .more-active, .more-inactive {
         text-decoration: none;
         display: inline-block;
         padding: 8px 16px;
-        /*background-color: #08152D;*/
-        /*color: antiquewhite;*/
         font-family: Arial;
         font-weight: bolder;
         vertical-align: center;
         border-radius: 15px;
     }
-    .next-active, .previous-active {
+    .next-active, .previous-active, .less-active, .more-active {
         background-color: #08152D;
         color: antiquewhite;
     }
-    .next-active:hover, .previous-active:hover {
+    .next-active:hover, .previous-active:hover, .less-active:hover, .more-active:hover {
         background-color: #EEF5F0;
         color: #08152D;
     }
-    .next-inactive, .previous-inactive {
+    .next-inactive, .previous-inactive, .less-inactive, .more-inactive {
         background-color: #525353;
         color: #C1C1C1;
+    }
+    .less-active, .less-inactive {
+        margin-left: 25px;
     }
     .content {
         background-color: #08152D;
@@ -102,7 +127,6 @@
         border-top-left-radius: 50%;
         border-bottom-left-radius: 50%;
     }
-
     .empty-row {
         height: 0.5rem;
     }
@@ -132,11 +156,12 @@
 </style>
 
 <body>
-<form class="example" th:action="@{/characters}">
+<div class="filter-bar">
+<form class="filter-form" th:action="@{/characters}">
     <input type="text" th:name="name" th:value="${name}"/>
     <div class="status-filter">
-        <label>Status:</label>
-        <select th:name="status">
+        <label class="status-label">Status:</label>
+        <select class="select-status" th:name="status">
             <option th:value="${status}" th:text="${status.toUpperCase()}"></option>
             <option th:value="'all'">All</option>
             <option th:value="'alive'">Alive</option>
@@ -144,31 +169,8 @@
             <option th:value="'unknown'">Unknown</option>
         </select>
     </div>
-<!--    <div class="count-items">-->
-<!--        <div th:if="${count == 10}">-->
-<!--            <button class="less-inactive">&minus;</button>-->
-<!--        </div>-->
-<!--        <div th:if="${count > 10}">-->
-<!--            <button class="less-active" th:value="${count + 10}">&minus;</button>-->
-<!--        </div>-->
-<!--    </div>-->
     <button type="submit">Search</button>
 </form>
-<div class="items-count">
-    <label>Items:</label>
-    <div th:if="${count == 10}">
-        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count}" class="less-inactive">&minus;</a>
-    </div>
-    <div th:if="${count > 10}">
-        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count - 10}" class="less-active">&minus;</a>
-    </div>
-    <div type="box" th:text="${count}"/>
-    <div th:if="${count == 100}">
-        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count}" class="more-inactive">&plus;</a>
-    </div>
-    <div th:if="${count < 100}">
-        <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count + 10}" class="more-active">&plus;</a>
-    </div>
 </div>
 <div class="pages-bar">
     <div th:if="${currentPage == 0}">
@@ -177,13 +179,26 @@
     <div th:if="${currentPage > 0}">
         <a th:href="'/characters?page=' + ${currentPage - 1} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status}" class="previous-active">&#8249; Previous</a>
     </div>
-    <div type="box" th:text="'Current page: ' + ${currentPage} + '/' + ${pages}"></div>
+    <div class="text" type="box" th:text="'Current page: ' + ${currentPage} + '/' + ${pages}"></div>
     <div th:if="${currentPage < pages}">
         <a th:href="'/characters?page=' + ${currentPage + 1} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status}" class="next-active">Next &#8250;</a>
     </div>
     <div th:if="${currentPage == pages}">
         <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name}  + '&status=' + ${status}" class="next-inactive">Next &#8250;</a>
     </div>
+        <div th:if="${count == 10}">
+            <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count}" class="less-inactive">-</a>
+        </div>
+        <div th:if="${count > 10}">
+            <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count - 10}" class="less-active">-</a>
+        </div>
+        <div class="text" type="box" th:text="'Items: ' + ${count}"/>
+        <div th:if="${count == 100}">
+            <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count}" class="more-inactive">+</a>
+        </div>
+        <div th:if="${count < 100}">
+            <a th:href="'/characters?page=' + ${currentPage} + '&name=' + ${name == null ? '' : name} + '&status=' + ${status} + '&count=' + ${count + 10}" class="more-active">+</a>
+        </div>
 </div>
 
 <div class="content">
