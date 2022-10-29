@@ -1,75 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<style>
-    body {
-        background-color: #08152D;
-    }
-    table {
-        border-radius: 15px;
-        background-color: white;
-        width: 90%;
-        margin-left: 5%;
-        margin-top: 10px;
-    }
-    th, td {
-        border: 1px solid lightgrey;
-        border-radius: 15px;
-    }
-    th {
-        text-align: center;
-        font-family: Arial;
-        font-weight: bold;
-    }
-    td {
-        text-align: center;
-        font-family: Arial;
-    }
-    .pages-bar {
-        margin-top: 10px;
-        height: 50px;
-        display: flex;
-        background-color: white;
-        width: 100%;
-        vertical-align: center;
-    }
-
-    .previous-active, .previous-inactive, .next-active, .next-inactive, .less-active, .less-inactive, .more-active, .more-inactive {
-        text-decoration: none;
-        display: inline-block;
-        padding: 8px 16px;
-        font-family: Arial;
-        font-weight: bolder;
-        vertical-align: center;
-        border-radius: 15px;
-        margin-top: 8px;
-        margin-left: 5px;
-    }
-    .text {
-        margin-left: 10px;
-        margin-top: 15px;
-        font-family: Arial;
-        font-size: 1rem;
-    }
-    .next-active, .previous-active, .less-active, .more-active {
-        background-color: #08152D;
-        color: antiquewhite;
-    }
-    .next-active:hover, .previous-active:hover, .less-active:hover, .more-active:hover {
-        background-color: #EEF5F0;
-        color: #08152D;
-    }
-    .next-inactive, .previous-inactive, .less-inactive, .more-inactive {
-        background-color: #525353;
-        color: #C1C1C1;
-    }
-    .less-active, .less-inactive {
-        margin-left: 25px;
-    }
-</style>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Episodes</title>
+    <link th:href="@{/css/episode.css}" type="text/css" rel="stylesheet">
 </head>
+
 <body>
 <div th:insert="navbar.html"></div>
 <div class="filter-bar">

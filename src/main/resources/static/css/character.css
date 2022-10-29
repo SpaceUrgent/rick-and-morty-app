@@ -1,0 +1,147 @@
+.filter-bar, .filter-form {
+    display: flex;
+}
+.filter-bar {
+    background-color: #08152D;
+    height: 2.5rem;
+}
+.filter-form > label {
+    font-size: 17px;
+    font-family: Arial;
+}
+.select-status {
+    margin-top: 10px;
+}
+.status-label {
+    color: antiquewhite;
+    font-family: Arial;
+    font-size: 17px;
+}
+.filter-panel input[type=text] {
+    border: medium solid #08152D;
+    font-size: 17px;
+    border-radius: 15px;
+}
+.pages-bar {
+    margin-top: 10px;
+    height: 50px;
+    display: flex;
+}
+.pages-bar > .text {
+    font-size: 1rem;
+    font-family: Arial;
+    margin-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.previous-active, .previous-inactive, .next-active, .next-inactive, .less-active, .less-inactive, .more-active, .more-inactive {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    font-family: Arial;
+    font-weight: bolder;
+    vertical-align: center;
+    border-radius: 15px;
+}
+.next-active, .previous-active, .less-active, .more-active {
+    background-color: #08152D;
+    color: antiquewhite;
+}
+.next-active:hover, .previous-active:hover, .less-active:hover, .more-active:hover {
+    background-color: #EEF5F0;
+    color: #08152D;
+}
+.next-inactive, .previous-inactive, .less-inactive, .more-inactive {
+    background-color: #525353;
+    color: #C1C1C1;
+}
+.less-active, .less-inactive {
+    margin-left: 25px;
+}
+.content {
+    background-color: #08152D;
+}
+.empty-space {
+    height: 20px;
+}
+table {
+    margin-left: 10%;
+    margin-right: 10%;
+    max-width: 80%;
+}
+table,td, th {
+    border-collapse: collapse;
+}
+.row {
+    /*height: 250px;*/
+    height: 200px;
+    background-color: #4A4C50;
+}
+img {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    margin-top: 1%;
+    margin-left: 1%;
+}
+.character-content {
+    background-color: #4A4C50;
+    padding-left: 5%;
+    vertical-align: top;
+}
+.character-name {
+    font-family: "Arial Black";
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: antiquewhite;
+}
+
+.character-properties, .character-location {
+    font-family: "Arial";
+    font-size: 1rem;
+    font-weight: lighter;
+    color: antiquewhite;
+}
+.property-description, .location-description {
+    font-family: "Arial";
+    font-size: 1rem;
+    font-weight: normal;
+    color: darkgrey;
+}
+.character-content-location {
+    vertical-align: center;
+    background-color: #4A4C50;
+    padding-left: 5%;
+    border-bottom-right-radius: 50%;
+    border-top-right-radius: 50%;
+}
+.image-column {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+.empty-row {
+    height: 0.5rem;
+}
+.character-status {
+    display: flex;
+    vertical-align: center;
+}
+.character-status > a {
+    flex: 1;
+}
+.status-light-green, .status-light-red, .status-light-unknown {
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 50%;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.status-light-green {
+    background-color: green;
+}
+.status-light-red {
+    background-color: red;
+}
+.status-light-unknown {
+    background-color: yellow;
+}
