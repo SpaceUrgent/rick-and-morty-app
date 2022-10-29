@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "episodes")
+@Table(name = "episodes", schema = "rick_and_morty")
 public class Episode {
     @Id
     private Long id;

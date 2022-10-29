@@ -5,7 +5,9 @@ import com.spaceurgent.rickandmortyapp.dto.mapper.MovieCharacterMapper;
 import com.spaceurgent.rickandmortyapp.model.MovieCharacter;
 import com.spaceurgent.rickandmortyapp.model.enums.Status;
 import com.spaceurgent.rickandmortyapp.repository.MovieCharacterRepository;
+import com.spaceurgent.rickandmortyapp.service.EpisodeService;
 import com.spaceurgent.rickandmortyapp.service.HttpClient;
+import com.spaceurgent.rickandmortyapp.service.LocationService;
 import com.spaceurgent.rickandmortyapp.service.MovieCharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,14 +23,19 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
     private final MovieCharacterRepository movieCharacterRepository;
     private final HttpClient httpClient;
     private final MovieCharacterMapper movieCharacterMapper;
+    private final LocationService locationService;
     @Value("${app.characters.url}")
     private String charactersUrl;
 
     @Autowired
-    public MovieCharacterServiceImpl(MovieCharacterRepository movieCharacterRepository, HttpClient httpClient, MovieCharacterMapper movieCharacterMapper) {
+    public MovieCharacterServiceImpl(MovieCharacterRepository movieCharacterRepository,
+                                     HttpClient httpClient,
+                                     MovieCharacterMapper movieCharacterMapper,
+                                     LocationService locationService) {
         this.movieCharacterRepository = movieCharacterRepository;
         this.httpClient = httpClient;
         this.movieCharacterMapper = movieCharacterMapper;
+        this.locationService = locationService;
     }
 
     @Override
@@ -87,6 +94,16 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
     }
 
     @Override
+    public Long countPagesByResidence(Integer count, Long residenceId) {
+        return countByResidence(residenceId) / count;
+    }
+
+    @Override
+    public Long countPagesByOrigin(Integer count, Long originId) {
+        return countByOrigin(originId) / count;
+    }
+
+    @Override
     public List<MovieCharacter> findAllByNameContains(String value, PageRequest pageRequest) {
         if (value == null || value.isEmpty()) {
             return getAll(pageRequest);
@@ -117,4 +134,42 @@ public class MovieCharacterServiceImpl implements MovieCharacterService {
                         value, pageRequest).getContent();
     }
 
+    @Override
+    public Long countByResidence(Long residenceId) {
+        return movieCharacterRepository.countAllByLocation(locationService.findById(residenceId));
+    }
+
+    @Override
+    public Long countByOrigin(Long originId) {
+        return movieCharacterRepository.countAllByOrigin(locationService.findById(originId));
+    }
+
+    @Override
+    public List<MovieCharacter> findAllByResidence(Long locationId, PageRequest pageRequest) {
+        return movieCharacterRepository
+                .findAllByLocation(locationService.findById(locationId), pageRequest)
+                .getContent();
+    }
+
+    @Override
+    public List<MovieCharacter> findAllByOrigin(Long locationId, PageRequest pageRequest) {
+        return movieCharacterRepository
+                .findAllByOrigin(locationService.findById(locationId), pageRequest)
+                .getContent();
+    }
+
+    @Override
+    public Long countMovieCharactersPagesByEpisodeId(Long id, Integer count) {
+        return movieCharacterRepository.countMovieCharacterByEpisodeId(id) / count;
+    }
+
+    @Override
+    public List<MovieCharacter> findMovieCharactersByEpisodeId(Long episodeId, Integer page, Integer count) {
+        if (episodeId == null) {
+            throw new RuntimeException("Episode Id can't be null");
+        }
+        int limitFrom = (page == 0) ? 1 : (page * count);
+        int limitTo = limitFrom + count;
+        return movieCharacterRepository.findMovieCharactersByEpisodeId(episodeId, limitFrom, limitTo);
+    }
 }

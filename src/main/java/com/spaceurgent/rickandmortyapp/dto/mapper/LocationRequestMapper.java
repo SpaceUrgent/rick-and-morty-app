@@ -5,7 +5,8 @@ import com.spaceurgent.rickandmortyapp.model.Location;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LocationMapper implements RequestMapper<Location, ApiLocationDto> {
+public class LocationRequestMapper implements RequestMapper<Location, ApiLocationDto> {
+
     @Override
     public Location toModel(ApiLocationDto dto) {
         Location location = new Location();

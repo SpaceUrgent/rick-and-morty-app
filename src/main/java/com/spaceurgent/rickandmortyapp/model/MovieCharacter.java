@@ -7,9 +7,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+
 @Data
 @Entity
-@Table(name = "characters")
+@Table(name = "characters", schema = "rick_and_morty")
 public class MovieCharacter {
     @Id
     private Long id;

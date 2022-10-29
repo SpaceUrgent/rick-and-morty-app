@@ -18,10 +18,10 @@ import java.net.URL;
 @Component
 public class MovieCharacterMapper implements RequestMapper<MovieCharacter, ApiMovieCharacterDto>,
         ResponseMapper<MovieCharacterDto, MovieCharacter> {
-    private final LocationService locationService;
+    private LocationService locationService;
 
     @Autowired
-    public MovieCharacterMapper(LocationService locationService) {
+    public void setLocationService(LocationService locationService) {
         this.locationService = locationService;
     }
 

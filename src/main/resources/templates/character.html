@@ -156,6 +156,7 @@
 </style>
 
 <body>
+<div th:insert="navbar.html"></div>
 <div class="filter-bar">
 <form class="filter-form" th:action="@{/characters}">
     <input type="text" th:name="name" th:value="${name}"/>

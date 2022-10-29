@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+
+<style>
+  .filter-bar, .filter-form {
+    display: flex;
+  }
+  .filter-bar {
+    background-color: #08152D;
+    height: 2.5rem;
+  }
+  .filter-form > label {
+    font-size: 17px;
+    font-family: Arial;
+  }
+  .select-status {
+    margin-top: 10px;
+  }
+  .status-label {
+    color: antiquewhite;
+    font-family: Arial;
+    font-size: 17px;
+  }
+  .filter-panel input[type=text] {
+    border: medium solid #08152D;
+    font-size: 17px;
+    border-radius: 15px;
+  }
+  .pages-bar {
+    margin-top: 10px;
+    height: 50px;
+    display: flex;
+  }
+  .pages-bar > .text {
+    font-size: 1rem;
+    font-family: Arial;
+    margin-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .previous-active, .previous-inactive, .next-active, .next-inactive, .less-active, .less-inactive, .more-active, .more-inactive {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    font-family: Arial;
+    font-weight: bolder;
+    vertical-align: center;
+    border-radius: 15px;
+  }
+  .next-active, .previous-active, .less-active, .more-active {
+    background-color: #08152D;
+    color: antiquewhite;
+  }
+  .next-active:hover, .previous-active:hover, .less-active:hover, .more-active:hover {
+    background-color: #EEF5F0;
+    color: #08152D;
+  }
+  .next-inactive, .previous-inactive, .less-inactive, .more-inactive {
+    background-color: #525353;
+    color: #C1C1C1;
+  }
+  .less-active, .less-inactive {
+    margin-left: 25px;
+  }
+  .content {
+    background-color: #08152D;
+  }
+  .empty-space {
+    height: 20px;
+  }
+  table {
+    margin-left: 10%;
+    margin-right: 10%;
+    max-width: 80%;
+  }
+  table,td, th {
+    border-collapse: collapse;
+  }
+  .row {
+    /*height: 250px;*/
+    height: 200px;
+    background-color: #4A4C50;
+  }
+  img {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    margin-top: 1%;
+    margin-left: 1%;
+  }
+  .character-content {
+    background-color: #4A4C50;
+    padding-left: 5%;
+    vertical-align: top;
+  }
+  .character-name {
+    font-family: "Arial Black";
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: antiquewhite;
+  }
+
+  .character-properties, .character-location {
+    font-family: "Arial";
+    font-size: 1rem;
+    font-weight: lighter;
+    color: antiquewhite;
+  }
+  .property-description, .location-description {
+    font-family: "Arial";
+    font-size: 1rem;
+    font-weight: normal;
+    color: darkgrey;
+  }
+  .character-content-location {
+    vertical-align: center;
+    background-color: #4A4C50;
+    padding-left: 5%;
+    border-bottom-right-radius: 50%;
+    border-top-right-radius: 50%;
+  }
+  .image-column {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+  }
+  .empty-row {
+    height: 0.5rem;
+  }
+  .character-status {
+    display: flex;
+    vertical-align: center;
+  }
+  .character-status > a {
+    flex: 1;
+  }
+  .status-light-green, .status-light-red, .status-light-unknown {
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 50%;
+    margin-top: 5px;
+    margin-right: 5px;
+  }
+  .status-light-green {
+    background-color: green;
+  }
+  .status-light-red {
+    background-color: red;
+  }
+  .status-light-unknown {
+    background-color: yellow;
+  }
+</style>
+
+<body>
+<div th:insert="navbar.html"></div>
+<div class="filter-bar">
+  <form class="filter-form" th:action="@{/characters}">
+    <input type="text" th:name="name" th:value="${name}"/>
+    <div class="status-filter">
+      <label class="status-label">Status:</label>
+      <select class="select-status" th:name="status">
+        <option th:value="${status}" th:text="${status.toUpperCase()}"></option>
+        <option th:value="'all'">All</option>
+        <option th:value="'alive'">Alive</option>
+        <option th:value="'dead'">Dead</option>
+        <option th:value="'unknown'">Unknown</option>
+      </select>
+    </div>
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="pages-bar">
+  <div th:if="${currentPage == 0}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage} + '&count=' + ${count}" class="previous-inactive">&#8249; Previous</a>
+  </div>
+  <div th:if="${currentPage > 0}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage - 1} + '&count=' + ${count}" class="previous-active">&#8249; Previous</a>
+  </div>
+  <div class="text" type="box" th:text="'Current page: ' + ${currentPage} + '/' + ${pages}"></div>
+  <div th:if="${currentPage < pages}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage + 1} + '&count=' + ${count}" class="next-active">Next &#8250;</a>
+  </div>
+  <div th:if="${currentPage == pages}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage} + '&count=' + ${count}" class="next-inactive">Next &#8250;</a>
+  </div>
+  <div th:if="${count == 10}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage} + '&count=' + ${count}" class="less-inactive">-</a>
+  </div>
+  <div th:if="${count > 10}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage} + '&count=' + ${count - 10}" class="less-active">-</a>
+  </div>
+  <div class="text" type="box" th:text="'Items: ' + ${count}"/>
+  <div th:if="${count == 100}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage} + '&count=' + ${count}" class="more-inactive">+</a>
+  </div>
+  <div th:if="${count < 100}">
+    <a th:href="'/characters/episode/' + ${id} + '?page=' + ${currentPage}+ '&count=' + ${count + 10}" class="more-active">+</a>
+  </div>
+</div>
+
+<div class="content">
+  <div class="empty-space"></div>
+  <table class="characters-table">
+    <tr>
+      <th style="width: 250px"></th>
+      <th style="width: 300px"></th>
+      <th style="width: 300px"></th>
+    </tr>
+    <div class="character-container" th:each="character : ${characters}">
+      <tr class="row">
+        <td class="image-column">
+          <div class="character-image">
+            <img th:src="@{'data:image/jpeg;base64,'+ ${character.encodeImage()}}">
+          </div>
+        </td>
+        <td class="character-content">
+          <a class="character-name" th:text="${character.name}"/></p>
+          <a class="character-properties"></a></p>
+          <div class="character-status">
+            <div th:switch="${character.status}">
+              <div th:case="'Alive'">
+                <div class="status-light-green"></div></div>
+              <div th:case="'Dead'">
+                <div class="status-light-red"></div></div>
+              <div th:case="'unknown'">
+                <div class="status-light-unknown"></div></div>
+            </div>
+            <a class="character-properties" th:text="${character.status}"/></p>
+          </div>
+          <a class="property-description">Spieces:</a></p>
+          <a class="character-properties" th:text="${character.spieces} + ' - ' + ${character.gender}"/></p>
+          <div class="character-type" th:if="${!character.type.isEmpty()}">
+            <a class="property-description">Type:</a></p>
+            <a class="character-properties" th:text="${character.type}"/></p>
+          </div>
+        </td>
+        <td class="character-content-location">
+          <a class="location-description">Originally from:</a></p>
+          <a class="character-location" th:text="${character.origin}"/></p>
+          <a class="location-description">Last known location:</a></p>
+          <a class="character-location" th:text="${character.resident}"/></p>
+        </td>
+      </tr>
+      <tr class="empty-row"></tr>
+    </div>
+  </table>
+</div>
+</body>
+</html>

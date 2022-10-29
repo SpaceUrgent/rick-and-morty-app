@@ -1,6 +1,7 @@
 package com.spaceurgent.rickandmortyapp.dto.mapper;
 
 import com.spaceurgent.rickandmortyapp.dto.external.episode.ApiEpisodeDto;
+import com.spaceurgent.rickandmortyapp.dto.response.EpisodeDto;
 import com.spaceurgent.rickandmortyapp.model.Episode;
 import com.spaceurgent.rickandmortyapp.model.MovieCharacter;
 import com.spaceurgent.rickandmortyapp.service.MovieCharacterService;
@@ -13,7 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class EpisodeMapper implements RequestMapper<Episode, ApiEpisodeDto> {
+public class EpisodeMapper implements RequestMapper<Episode, ApiEpisodeDto>,
+        ResponseMapper<EpisodeDto, Episode> {
     private final MovieCharacterService movieCharacterService;
 
     @Autowired
@@ -39,5 +41,16 @@ public class EpisodeMapper implements RequestMapper<Episode, ApiEpisodeDto> {
     private MovieCharacter getCharacter(String characterUrl) {
         String[] url = characterUrl.split("/");
         return movieCharacterService.findById(Long.parseLong(url[url.length - 1]));
+    }
+
+    @Override
+    public EpisodeDto toDto(Episode episode) {
+        EpisodeDto dto = new EpisodeDto();
+        dto.setId(episode.getId());
+        dto.setName(episode.getName());
+        dto.setEpisode(episode.getEpisode());
+        dto.setAirDate(episode.getAirDate());
+        dto.setCharactersNumber(episode.getCharacters().size());
+        return dto;
     }
 }
