@@ -59,7 +59,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Location> getAll(PageRequest pageRequest) {
-        return locationRepository.findAll(pageRequest).getContent().stream().toList();
+        return locationRepository.findAll(pageRequest).getContent();
     }
 
     @Override

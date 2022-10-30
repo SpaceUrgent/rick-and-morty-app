@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class SynchronizationServiceImpl implements SynchronizationService {
     private final LocationService locationService;
@@ -23,6 +25,7 @@ public class SynchronizationServiceImpl implements SynchronizationService {
         this.episodeService = episodeService;
     }
 
+    @PostConstruct
     @Scheduled(cron = "0 0 23 * * ?")
     @Override
     public void syncData() {
